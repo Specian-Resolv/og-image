@@ -1,4 +1,4 @@
-import type { ParsedRequest, Theme, FileType } from '../api/_lib/types';
+import { ParsedRequest, Theme, FileType } from '../api/_lib/types';
 const { H, R, copee } = (window as any);
 let timeout = -1;
 
@@ -60,18 +60,15 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 interface TextInputProps {
     value: string;
     oninput: (val: string) => void;
-    small: boolean;
-    placeholder?: string;
-    type?: string
 }
 
-const TextInput = ({ value, oninput, small, type = 'text', placeholder = '' }: TextInputProps) => {
+const TextInput = ({ value, oninput }: TextInputProps) => {
     return H('div',
-        { className: 'input-outer-wrapper' + (small ? ' small' : '') },
+        { className: 'input-outer-wrapper' },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type, value, placeholder, oninput: (e: any) => oninput(e.target.value) }
+                { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
             )
         )
     );
@@ -145,14 +142,37 @@ const markdownOptions: DropdownOption[] = [
 ];
 
 const imageLightOptions: DropdownOption[] = [
-    { text: 'Resolv', value: 'https://resolvbot.xyz/favicon.png' },
+    { text: 'Deafult', value: 'https://og-image11.vercel.app/resolvlogo.svg' },
 ];
 
 const imageDarkOptions: DropdownOption[] = [
 
-    { text: 'Resolv', value: 'https://resolvbot.xyz/favicon.png' },
+    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg' },
+    { text: 'dsn', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
+    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
 ];
 
+const widthOptions = [
+    { text: 'width', value: 'auto' },
+    { text: '50', value: '50' },
+    { text: '100', value: '100' },
+    { text: '150', value: '150' },
+    { text: '200', value: '200' },
+    { text: '250', value: '250' },
+    { text: '300', value: '300' },
+    { text: '350', value: '350' },
+];
+
+const heightOptions = [
+    { text: 'height', value: 'auto' },
+    { text: '50', value: '50' },
+    { text: '100', value: '100' },
+    { text: '150', value: '150' },
+    { text: '200', value: '200' },
+    { text: '250', value: '250' },
+    { text: '300', value: '300' },
+    { text: '350', value: '350' },
+];
 
 interface AppState extends ParsedRequest {
     loading: boolean;
@@ -193,7 +213,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
         selectedImageIndex = 0,
         overrideUrl = null,
     } = state;
-
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
@@ -278,23 +297,21 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         }),
                         H('div',
                             { className: 'field-flex' },
-                            H(TextInput, {
+                            H(Dropdown, {
+                                options: widthOptions,
                                 value: widths[0],
-                                type: 'number',
-                                placeholder: 'width',
                                 small: true,
-                                oninput: (val: string) =>  {
+                                onchange: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[0] = val;
                                     setLoadingState({ widths: clone });
                                 }
                             }),
-                            H(TextInput, {
+                            H(Dropdown, {
+                                options: heightOptions,
                                 value: heights[0],
-                                type: 'number',
-                                placeholder: 'height',
                                 small: true,
-                                oninput: (val: string) =>  {
+                                onchange: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[0] = val;
                                     setLoadingState({ heights: clone });
@@ -316,23 +333,21 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         }),
                         H('div',
                             { className: 'field-flex' },
-                            H(TextInput, {
+                            H(Dropdown, {
+                                options: widthOptions,
                                 value: widths[i + 1],
-                                type: 'number',
-                                placeholder: 'width',
                                 small: true,
-                                oninput: (val: string) =>  {
+                                onchange: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[i + 1] = val;
                                     setLoadingState({ widths: clone });
                                 }
                             }),
-                            H(TextInput, {
+                            H(Dropdown, {
+                                options: heightOptions,
                                 value: heights[i + 1],
-                                type: 'number',
-                                placeholder: 'height',
                                 small: true,
-                                oninput: (val: string) =>  {
+                                onchange: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[i + 1] = val;
                                     setLoadingState({ heights: clone });
