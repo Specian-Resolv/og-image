@@ -52,13 +52,13 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 
 function getDefaultImages(images: string[], theme: Theme): string[] {
     const defaultImage = theme === 'light'
-        ? 'https://notes.nayanpatel.net/sitelogo.svg'
-        : 'https://notes.nayanpatel.net/sitelogo.svg';
+        ? 'https://og-image11.vercel.app/resolvlogo.svg'
+        : 'https://og-image11.vercel.app/resolvlogo.svg';
 
     if (!images || !images[0]) {
         return [defaultImage];
     }
-    if (!images[0].startsWith('https://notes.nayanpatel.net/') && !images[0].startsWith('https://assets.zeit.co/')) {
+    if (!images[0].startsWith('https://og-image11.vercel.app') && !images[0].startsWith('https://assets.zeit.co/')) {
         images[0] = defaultImage;
     }
     return images;
